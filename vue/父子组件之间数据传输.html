@@ -1,0 +1,182 @@
+<!-- <!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>   
+    <script type="text/javascript">
+        window.onload = function(){
+            var app = new Vue({
+            el:'#box',
+            data:{
+                myData:'父组件信息',
+                addtodo: ''
+            },
+
+            mounted() {
+                app.$on('addtodo', this.addTodo)
+            },
+            methods:{
+                addTodo(val){
+                    console.log(val)
+                }   
+            },
+            components:{
+                'v-com':{
+                    data() {
+                        return {
+                            childData:''
+                        }
+                    },
+                    watch:{
+                        childData(curVal,oldVal){
+                            // console.log(curVal);
+                            app.$emit('addtodo', curVal)
+                        }
+                    },
+                    props:['myData','data'],
+                    // dom渲染完毕
+                    mounted(){
+                        this.childData = this.data;
+                    },
+                    template:'#tpl',
+                    methods:{
+                        change(){
+                            this.childData = 'change info'
+                        }
+                    }
+                }
+            }
+        })
+        }
+    </script>
+</head>
+<body>
+    子组件改变父组件的数据,不同步
+    <div id="box">
+        <div>
+            <p>{{myData}}</p>
+            <v-com :data="myData" v-model="myData"></v-com> :data="myData"
+        </div>
+    </div>
+
+    模板
+    <template id="tpl">
+        <div>
+            <button @click="change">change</button>
+            <p>{{childData}}</p>
+        </div>
+    </template>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>  
+    <script type="text/javascript">
+        window.onload = function(){
+            var app = new Vue({
+            el:'#box',
+            data:{
+                myData:{
+                    info:'父组件信息'
+                }
+            },
+            components:{
+                'v-com':{
+                    props:['data'],
+                    template:'#tpl',
+                    methods:{
+                        change(){
+                            this.data.info = 'change info'
+                        }
+                    }
+                }
+            }
+        })
+        }
+    </script>
+</head>
+<body>
+    <!-- 子组件改变父组件的数据 -->
+    <div id="box">
+        <div>
+            <p>{{myData.info}}</p>
+            <v-com :data ="myData"></v-com>
+        </div>
+    </div>
+
+    <!-- 模板 -->
+    <template id="tpl">
+        <div>
+            <button @click="change">change</button>
+            <p>{{data.info}}</p>
+        </div>
+    </template>
+
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>  
+    <script type="text/javascript">
+        window.onload = function(){
+            var app = new Vue({
+            el:'#box',
+            data:{
+                myData:'父组件信息'
+            },
+            components:{
+                'v-com':{
+                    data() {
+                        return {
+                            childData:''
+                        }
+                    },
+                    props:['data'],
+                    // dom渲染完毕
+                    mounted(){
+                        this.childData = this.data
+                    },
+                    template:'#tpl',
+                    methods:{
+                        change(){
+                            this.childData = 'change info'
+                        }
+                    }
+                }
+            }
+        })
+        }
+    </script>
+</head>
+<body>
+    子组件改变父组件的数据,不同步
+    <div id="box">
+        <div>
+            <p>{{myData}}</p>
+            <v-com :data ="myData"></v-com>
+        </div>
+    </div>
+
+    模板
+    <template id="tpl">
+        <div>
+            <button @click="change">change</button>
+            <p>{{childData}}</p>
+        </div>
+    </template>
+
+</body>
+</html>

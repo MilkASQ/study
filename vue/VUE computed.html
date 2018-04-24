@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>   
+</head>
+<body> 
+    <div id="box">
+        {{msg}}
+        <hr>
+        {{reMsg}}
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el:'#box',
+            data:{
+                msg:'12345'
+            },
+            computed:{
+                reMsg:{
+                    get:function(){
+                        return this.msg.split('').reverse().join('')
+                    },
+                    set:function(value){
+                        this.msg = value; //最后修改了msg    
+                    }
+                }
+            }
+        });
+
+        setTimeout(()=>{
+            console.log(vm.reMsg = 'abcd');     //当我们修改这个变量的时候他的值也是跟随着我们js规则反向显示
+        },1500);
+
+    </script>
+</body>
+</html>
